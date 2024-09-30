@@ -33,6 +33,11 @@ set( CMAKE_DISABLE_IN_SOURCE_BUILD ON )
 set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" )
 
 option( WITH_APPS "Build applications" ON )
+option( SELF_PIN "Enable Self Pinning until exit" ON)
+
+if(SELF_PIN)
+    add_compile_definitions(OPENSSL_INIT_SELFPIN)
+endif()
 
 # OpenSSL version detection imported from FindOpenSSL.cmake
 
@@ -120,8 +125,8 @@ if( APPLE )
 endif()
 
 if( WIN32 )
-  set( CMAKE_SHARED_LIBRARY_PREFIX "lib" )
-  set( CMAKE_STATIC_LIBRARY_PREFIX "lib" )
+  # set( CMAKE_SHARED_LIBRARY_PREFIX "lib" )
+  # set( CMAKE_STATIC_LIBRARY_PREFIX "lib" )
 endif()
 
 if( WIN32 AND NOT CYGWIN )

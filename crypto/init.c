@@ -169,9 +169,13 @@ DEFINE_RUN_ONCE_STATIC(ossl_init_load_crypto_nodelete)
         BOOL ret;
 
         /* We don't use the DSO route for WIN32 because there is a better way */
+#ifdef OPENSSL_INIT_SELFPIN
         ret = GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
-                                | GET_MODULE_HANDLE_EX_FLAG_PIN,
-                                (void *)&base_inited, &handle);
+            | GET_MODULE_HANDLE_EX_FLAG_PIN,
+            (void*)&base_inited, &handle);
+#else 
+        ret = TRUE;
+#endif
 
 #  ifdef OPENSSL_INIT_DEBUG
         fprintf(stderr, "OPENSSL_INIT: obtained DSO reference? %s\n",
